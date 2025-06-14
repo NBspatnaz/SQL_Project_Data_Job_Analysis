@@ -8,27 +8,24 @@ WITH job AS (
     WHERE job_title_short = 'Data Analyst'
     AND salary_year_avg IS NOT NULL
     AND job_work_from_home = 'Yes'
-    ORDER BY salary_year_avg DESC
 )
 
 SELECT
     skills_job.skill_id,
     skills_dim.skills AS skills_name,
     COUNT(skills_job.job_id) AS demand_count,
-    job.job_title_short,
     ROUND (AVG(job.salary_year_avg),2) AS average_salary
 FROM skills_job_dim AS skills_job
 INNER JOIN job ON skills_job.job_id = job.job_id
 INNER JOIN skills_dim ON skills_job.skill_id = skills_dim.skill_id
 GROUP BY
     skills_job.skill_id,
-    skills_dim.skills,
-    job.job_title_short
+    skills_dim.skills
 HAVING
     COUNT(skills_job.job_id) > 10
 ORDER BY
-    average_salary DESC,
-    demand_count DESC
     
-
+    demand_count DESC,
+    average_salary DESC
+    
 LIMIT 25;
