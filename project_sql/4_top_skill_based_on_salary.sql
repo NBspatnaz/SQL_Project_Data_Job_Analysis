@@ -30,3 +30,19 @@ ORDER BY
     average_salary DESC
 
 LIMIT 25;
+
+
+SELECT
+    skills,
+    ROUND (AVG(jobs.salary_year_avg),2) AS average_salary
+    FROM skills_dim
+    INNER JOIN skills_job_dim AS skills_job ON skills_dim.skill_id = skills_job.skill_id
+    INNER JOIN job_postings_fact AS jobs ON skills_job.job_id = jobs.job_id
+    WHERE jobs.job_title_short = 'Data Analyst' 
+    AND jobs.salary_year_avg IS NOT NULL
+    AND job_work_from_home = 'Yes'
+    GROUP BY
+    skills_dim.skills
+ORDER BY
+    average_salary DESC
+LIMIT 25;
