@@ -24,9 +24,11 @@ GROUP BY
     skills_job.skill_id,
     skills_dim.skills,
     job.job_title_short
-
+HAVING
+    COUNT(skills_job.job_id) > 10
 ORDER BY
-    demand_count DESC,
-    average_salary DESC
+    average_salary DESC,
+    demand_count DESC
+    
 
 LIMIT 25;
